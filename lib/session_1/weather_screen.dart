@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_training/session_2/get_weather.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
@@ -68,10 +69,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {
-                      //　ここでWeatherAPIを実行する
-                      _handleMiddleImage('cloudy.svg');
-                    },
+                    onPressed: _handleMiddleImage,
                     child: const Text('Reload'),
                   ),
                 ),
@@ -84,10 +82,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   // set image
-  void _handleMiddleImage(String weatherCondition) {
+  void _handleMiddleImage() {
+    final svgString = handleMiddleImage();
     setState(() {
-      final Widget svg = SvgPicture.asset('assets/$weatherCondition');
-      print(svg);
+      final Widget svg = SvgPicture.asset('assets/$svgString.svg');
       controlPlaceHolder = svg;
     });
   }
