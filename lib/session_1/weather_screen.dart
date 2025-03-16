@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_training/session_2/get_weather.dart';
 
-class WeatherScreen extends StatelessWidget {
+class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
+  @override
+  State<WeatherScreen> createState() => _WeatherScreenState();
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
+  // control the middle image
+  Widget controlPlaceHolder = const Placeholder();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -14,7 +23,7 @@ class WeatherScreen extends StatelessWidget {
             widthFactor: 0.5,
             child: Column(
               children: [
-                const AspectRatio(aspectRatio: 1, child: Placeholder()),
+                AspectRatio(aspectRatio: 1, child: controlPlaceHolder),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
@@ -60,7 +69,7 @@ class WeatherScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: _handleMiddleImage,
                     child: const Text('Reload'),
                   ),
                 ),
@@ -70,6 +79,15 @@ class WeatherScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // set image
+  void _handleMiddleImage() {
+    final svgString = handleMiddleImage();
+    setState(() {
+      final Widget svg = SvgPicture.asset('assets/$svgString.svg');
+      controlPlaceHolder = svg;
+    });
   }
 }
 
