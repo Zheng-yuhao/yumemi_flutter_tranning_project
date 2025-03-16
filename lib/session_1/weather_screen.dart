@@ -9,7 +9,25 @@ class WeatherScreen extends StatefulWidget {
   State<WeatherScreen> createState() => _WeatherScreenState();
 }
 
-class _WeatherScreenState extends State<WeatherScreen> {
+class _WeatherScreenState extends State<WeatherScreen>
+    with WidgetsBindingObserver {
+  // observe lifecycle
+  @override
+  void initState() {
+    super.initState();
+    print('i am in initStating...');
+    WidgetsBinding.instance.addObserver(this);
+  }
+  // observe lifecycle
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('I m in didChangeAppLifecycleState...');
+    super.didChangeAppLifecycleState(state);
+    // stateの値は以下のドキュメント参照
+    // https://docs.flutter.dev/get-started/flutter-for/uikit-devs#listening-to-lifecycle-events
+    print('the state now is is $state');
+  }
+
   // control the middle image
   Widget controlPlaceHolder = const Placeholder();
   @override
@@ -63,7 +81,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (mounted) {
+                        Navigator.pop(context);
+                      }
+                    },
                     child: const Text('Close'),
                   ),
                 ),
